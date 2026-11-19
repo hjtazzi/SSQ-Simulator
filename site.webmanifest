@@ -1,0 +1,26 @@
+{
+  "name": "Single-Server Queue Simulator",
+  "short_name": "SSQS",
+  "description": "Single-server queue simulator for performance evaluation of arbitrary and exponentially distributed arrival/service times.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#020c0e",
+  "background_color": "#020c0e",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
