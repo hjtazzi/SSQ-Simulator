@@ -1,0 +1,47 @@
+@layer base {
+  body {
+    background-color: var(--color-primary-900, var(--color-black));
+    color: var(--color-text-base, var(--color-primary-50, var(--color-white)));
+    overscroll-behavior: contain;
+    unicode-bidi: isolate;
+    letter-spacing: normal;
+    word-spacing: normal;
+    min-height: var(--body-min-height, 100vh);
+  }
+
+  .font-fa,
+  [lang="fa"] {
+    font-family: "Vazirmatn", var(--font-sans);
+    direction: rtl;
+    --animate-fade-l-space: calc(var(--spacing) * -6);
+    --animate-fade-r-space: calc(var(--spacing) * 6);
+  }
+
+  .font-en,
+  [lang="en"] {
+    font-family: "FiraCode", var(--font-sans);
+    direction: ltr;
+    --animate-fade-l-space: calc(var(--spacing) * 6);
+    --animate-fade-r-space: calc(var(--spacing) * -6);
+  }
+
+  .custom-scrollbar {
+    @apply scrollbar-thin 
+      scrollbar-thumb-primary-500 scrollbar-track-transparent 
+      scrollbar-hover:scrollbar-thumb-primary-400 scrollbar-active:scrollbar-thumb-primary-300;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+}
+
+@utility animation-delay-* {
+  animation-delay: --value([ *]);
+}
