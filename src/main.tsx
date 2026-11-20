@@ -11,11 +11,11 @@ import "./styles/main.css";
 
 createRoot(document.getElementById('root') as HTMLElement)
   .render(
-    <StrictMode>
+    // <StrictMode>
       <HelmetProvider>
         <ContextProvider>
           <RouterProvider router={routes} />
         </ContextProvider>
       </HelmetProvider>
-    </StrictMode>,
+    // </StrictMode>,
   );

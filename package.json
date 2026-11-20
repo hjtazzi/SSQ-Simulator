@@ -1,6 +1,6 @@
 {
   "name": "SSQS",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "hjtazzi",
   "description": "A discrete-event simulator for single-server queues that computes key performance metrics (L, LQ, W, WQ, ρ, throughput) for arbitrary input traces and exponential arrivals/services.",
   "private": true,
@@ -15,6 +15,7 @@
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "echarts": "^6.1.0",
     "lodash.debounce": "^4.0.8",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
@@ -24,6 +25,7 @@
     "react-icons": "^5.7.0",
     "react-router-dom": "^7.18.6",
     "react-syntax-highlighter": "^16.1.2",
+    "runmat": "^0.7.1",
     "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {
@@ -42,9 +44,9 @@
     "@vitejs/plugin-legacy": "^8.2.4",
     "@vitejs/plugin-react": "^6.1.2",
     "babel-plugin-react-compiler": "^1.0.0",
-    "eslint": "^10.14.0",
+    "eslint": "^10.15.0",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-react-refresh": "^0.5.7",
+    "eslint-plugin-react-refresh": "^0.5.8",
     "globals": "^17.13.0",
     "postcss": "^8.5.33",
     "postcss-preset-env": "^11.6.3",
