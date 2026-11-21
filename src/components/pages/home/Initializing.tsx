@@ -1,10 +1,10 @@
-/* eslint-disable react-hooks/refs */
 import { useCallback, useMemo, useState } from 'react';
-import type { RunMatSessionHandle } from 'runmat';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { VscRefresh, VscRunCompact } from "react-icons/vsc";
+import { dist as RunJS } from 'ranjs';
+
 import { BtnFactory, InputFactory } from '../../factory';
-import { classCombiner, executeText } from '../../../utils';
+import { classCombiner } from '../../../utils';
 import type { TDataset } from '../../../pages/Home';
 
 
@@ -12,18 +12,19 @@ type InitializeValues = {
   arrivalRate: number;
   serviceRate: number;
   replications: number;
+  sampleSize: number;
 }
 
 interface InitializingProps {
-  sessionRef: React.RefObject<RunMatSessionHandle | null>;
   setDataset: React.Dispatch<React.SetStateAction<TDataset | undefined>>;
 }
 
-const Initializing = ({ sessionRef, setDataset }: InitializingProps) => {
+const Initializing = ({ setDataset }: InitializingProps) => {
   const defaultValues = useMemo<InitializeValues>(() => ({
     arrivalRate: 1,
     serviceRate: 7,
-    replications: 10
+    replications: 10,
+    sampleSize: 1000
   }), []);
   const {
     register,
@@ -36,43 +37,33 @@ const Initializing = ({ sessionRef, setDataset }: InitializingProps) => {
 
   const onSubmit = useCallback<SubmitHandler<InitializeValues>>(async (data) => {
     setSubErrors(undefined);
-    const session = sessionRef.current;
-    if (!session)
-      return setSubErrors('RunMat not available!');
 
     try {
       setRunning(true);
-      const { arrivalRate, serviceRate, replications } = data;
-      const arrivals_map: number[][] = [];
+      const { serviceRate, arrivalRate, sampleSize, replications } = data;
+      const dataset: TDataset['data'] = [];
 
-      const services = await executeText(
-        session,
-        `srv = exprnd(1/${serviceRate}, [1000, 1]);`,
-        "<service_map>",
-        "srv"
-      );
-      if (services instanceof Error)
-        return setSubErrors("<service_map>: " + services.message);
+      const initData = (mu: number, lambda: number, seed: number): TDataset['data'][number] => {
+        const srvExpo = new RunJS.Exponential(mu).seed(seed);
+        const arvExpo = new RunJS.Exponential(lambda).seed(seed);
 
-      await Promise.all(Array.from({ length: replications }).map(async (_, _i) => {
-        const i = _i + 1;
-        const arrivals = await executeText(
-          session,
-          `arv_${i} = exprnd(1/${arrivalRate}, [1000, 1]);`,
-          `<arrival_map_${i}>`,
-          `arv_${i}`
-        );
+        return {
+          services: srvExpo.sample(sampleSize) as number[],
+          arrivals: arvExpo.sample(sampleSize) as number[],
+        }
+      }
 
-        if (arrivals instanceof Error)
-          return setSubErrors(`<arrival_map_${i}>: ` + arrivals.message);
+      for (let i = 1; i <= replications; i++) {
+        dataset.push(initData(
+          Number(serviceRate),
+          Number(arrivalRate),
+          (Number(serviceRate) + Number(arrivalRate)) + i
+        ));
+      }
 
-        arrivals_map.push(arrivals.values);
-      }));
-
-
+      console.log(dataset);
       return setDataset({
-        services: services.values,
-        arrivals: arrivals_map,
+        data: dataset,
         serviceRate,
         arrivalRate,
       });
@@ -83,7 +74,7 @@ const Initializing = ({ sessionRef, setDataset }: InitializingProps) => {
     } finally {
       setRunning(false);
     }
-  }, [sessionRef, setDataset]);
+  }, [setDataset]);
 
 
   return (
@@ -98,7 +89,7 @@ const Initializing = ({ sessionRef, setDataset }: InitializingProps) => {
 
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-row flex-wrap gap-0'>
         {/* Service Rate */}
-        <div className={'text-sm w-full md:w-1/3 md:px-3 mb-6'}>
+        <div className={'text-sm w-full md:w-1/4 md:px-3 mb-6'}>
           <div className={classCombiner(`w-full mb-2 px-1 text-primary-50 text-xs md:text-sm`)}>
             <span className='p-0 m-0'>Service Rate (μ, per time unit)</span>
           </div>
@@ -112,7 +103,7 @@ const Initializing = ({ sessionRef, setDataset }: InitializingProps) => {
         </div>
 
         {/* Arrival Rate */}
-        <div className={'text-sm w-full md:w-1/3 md:px-3 mb-6'}>
+        <div className={'text-sm w-full md:w-1/4 md:px-3 mb-6'}>
           <div className={classCombiner(`w-full mb-2 px-1 text-primary-50 text-xs md:text-sm`)}>
             <span className='p-0 m-0'>Arrival Rate (λ, per time unit)</span>
           </div>
@@ -125,8 +116,22 @@ const Initializing = ({ sessionRef, setDataset }: InitializingProps) => {
           </div>}
         </div>
 
+        {/* Sample Size */}
+        <div className={'text-sm w-full md:w-1/4 md:px-3 mb-6'}>
+          <div className={classCombiner(`w-full mb-2 px-1 text-primary-50 text-xs md:text-sm`)}>
+            <span className='p-0 m-0'>Sample Size (n)</span>
+          </div>
+
+          <InputFactory type='number' placeholder='Sample Size' inputMode='numeric' step={10}
+            {...register('sampleSize', { required: true, min: 10, max: 10000 })} />
+
+          {errors.sampleSize && <div className={classCombiner(`w-full mt-2 px-2 text-red-600 text-xs md:text-sm`)}>
+            <span className='p-0 m-0'>{`Sample Size is invalid. (10<=r<=10,000)`}</span>
+          </div>}
+        </div>
+
         {/* Replications */}
-        <div className={'text-sm w-full md:w-1/3 md:px-3 mb-6'}>
+        <div className={'text-sm w-full md:w-1/4 md:px-3 mb-6'}>
           <div className={classCombiner(`w-full mb-2 px-1 text-primary-50 text-xs md:text-sm`)}>
             <span className='p-0 m-0'>Replications</span>
           </div>

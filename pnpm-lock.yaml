@@ -20,6 +20,9 @@ importers:
       lodash.debounce:
         specifier: ^4.0.8
         version: 4.0.8
+      ranjs:
+        specifier: ^1.32.0
+        version: 1.32.0
       react:
         specifier: ^19.3.1
         version: 19.3.1
@@ -44,9 +47,6 @@ importers:
       react-syntax-highlighter:
         specifier: ^16.1.2
         version: 16.1.2(react@19.3.1)
-      runmat:
-        specifier: ^0.7.1
-        version: 0.7.1
       tailwind-merge:
         specifier: ^3.7.0
         version: 3.7.0
@@ -78,6 +78,9 @@ importers:
       '@types/node':
         specifier: ^24.19.2
         version: 24.19.2
+      '@types/ranjs':
+        specifier: ^1.22.7
+        version: 1.22.7
       '@types/react':
         specifier: ^19.3.0
         version: 19.3.0
@@ -645,36 +648,6 @@ packages:
 
   '@cacheable/utils@2.5.0':
     resolution: {integrity: sha512-buipgOVDkkPXNR5+xBpDw7Zk2n1EvU7qBJCNUcL7rhQ//kfpOXPAvQ511Os0vpLYJ1pZnvudNytkQt2hst3wqA==}
-
-  '@cbor-extract/cbor-extract-darwin-arm64@2.2.3':
-    resolution: {integrity: sha512-qpUy9Yoisi6a7QHOVa+AlnqfN7eVstSRhpLwiLnwi6i3SNLkM5D2Z7MXl4LC5nUGA77mZEt479cPH3u8GD163Q==}
-    cpu: [arm64]
-    os: [darwin]
-
-  '@cbor-extract/cbor-extract-darwin-x64@2.2.3':
-    resolution: {integrity: sha512-6bZbK7dyKn8BUNmG3UfzSnM4L/OzJ8xGAtBHYycprl+bgvtZmZoQC7CucWXuF/oHJP5skzqkqFr6BLSSGIkoWw==}
-    cpu: [x64]
-    os: [darwin]
-
-  '@cbor-extract/cbor-extract-linux-arm64@2.2.3':
-    resolution: {integrity: sha512-QAuFuQkOw0cm4MNc+QwxH9aiMxmrczESnVEu33B8m2Du9fBuH/1AvJfmO8YajpeWLoHqt2iUG3d1/gIWAKY8IQ==}
-    cpu: [arm64]
-    os: [linux]
-
-  '@cbor-extract/cbor-extract-linux-arm@2.2.3':
-    resolution: {integrity: sha512-joCovTc7uEYCL9XxdAJJpGIH7Vvc31Fi7vh3HnlY5zgkLSU/64WxYl5iUi/puE21qT3bmxMfOZEZUbnqVKeJTQ==}
-    cpu: [arm]
-    os: [linux]
-
-  '@cbor-extract/cbor-extract-linux-x64@2.2.3':
-    resolution: {integrity: sha512-IQMPVLulOvFv9Had7J1idJyfQzsFamDVdjH37qW7suHI7mgO4w1Oo3MisL7AjnWARxo0/ZmEEQ3i81WA7y34Ug==}
-    cpu: [x64]
-    os: [linux]
-
-  '@cbor-extract/cbor-extract-win32-x64@2.2.3':
-    resolution: {integrity: sha512-fGFfq6F3l0GCoKOZeyjjm3q+NHO7jo8ILtQ93U3rYJOgG2BGLS/QmBdoFLNEsoWPjyxAS8svWhTyo73MTDawog==}
-    cpu: [x64]
-    os: [win32]
 
   '@csstools/cascade-layer-name-parser@3.0.3':
     resolution: {integrity: sha512-9HiTRVY6yOywrAlBBlQ8KToKfwBlDmLNqTvh52BIe323BepJtFyWc+WQ4NnKWlTrvf3doP+EBOyAbnmFH/ay9Q==}
@@ -1410,6 +1383,9 @@ packages:
   '@types/prismjs@1.26.6':
     resolution: {integrity: sha512-vqlvI7qlMvcCBbVe0AKAb4f97//Hy0EBTaiW8AalRnG/xAN5zOiWWyrNqNXeq8+KAuvRewjCVY1+IPxk4RdNYw==}
 
+  '@types/ranjs@1.22.7':
+    resolution: {integrity: sha512-+oLyLzwv2WLTrHzsQUjtaoaeh9IMY9DU83TJ+6ooBtaAluossnDQ5xGiCjUEIgy7vlSfk/SapXeTyCGvd7nQkg==}
+
   '@types/react-dom@19.3.0':
     resolution: {integrity: sha512-ZI7bU42mZXXKHn/qNLEw2IrbiINU7X5+vfgdixBHkCNpYWXjKgfQ/P+uyGb5CjOLB9UcnTeg3rylQtV2hym44Q==}
     peerDependencies:
@@ -1600,13 +1576,6 @@ packages:
 
   caniuse-lite@1.0.30001826:
     resolution: {integrity: sha512-wTB+9tIbLro/BCXwLuNV1meHE4L9dS6dArMDwgYfNBPMYScqClHyGunhkCSDtHhe/69Xl0sHlKgBVZ+fNsYtWA==}
-
-  cbor-extract@2.2.3:
-    resolution: {integrity: sha512-zTOCEYwiQDChj5DV/sUqccv3jhdZqbhymztwcrW2LncIG2fPPkb1ceK5rmr0bdtxzJCXoWzZ95shA+uaSH8cKw==}
-    hasBin: true
-
-  cbor-x@1.6.9:
-    resolution: {integrity: sha512-TCT9XHLb4iPGQ99fpQjcTRncbus6cXHvSD/RY+bPrDACBCJKiQLmAM6r7/BgQcI5i+8h4gwp4vjfb6S6T8bPGw==}
 
   character-entities-legacy@3.0.0:
     resolution: {integrity: sha512-RpPp0asT/6ufRm//AJVwpViZbGM/MkjQFxJccQRHmISF/22NBtsHqAWmL+/pmkPWoIUJdWyeVleTl1wydHATVQ==}
@@ -2085,10 +2054,6 @@ packages:
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  node-gyp-build-optional-packages@5.1.1:
-    resolution: {integrity: sha512-+P72GAjVAbTxjjwUmwjVrqrdZROD4nf8KgpBoDxqXXTiYZZt/ud60dE5yvCSr9lRO8e8yv6kgJIC0K0PfZFVQw==}
-    hasBin: true
-
   node-releases@2.0.65:
     resolution: {integrity: sha512-PfvofsGQ+MiOQIPkX9fU8ELUWmy5zL74CdQaph/ismKszfFkfwXaw0cGiwbwym2hT9k5+mdyl8O5WQ1MD8EHmA==}
     engines: {node: '>=18'}
@@ -2322,6 +2287,10 @@ packages:
     resolution: {integrity: sha512-+Owyggi9IxT1ePKGafcI87ubSmxol6smwJ+RAHDQlx9+9cPwFWDiKFFCPuWhr9ignlGpZ9vDQLw67N4dcTVFEA==}
     engines: {node: '>=20'}
 
+  ranjs@1.32.0:
+    resolution: {integrity: sha512-PLh8krefbx3A48JYmK0N5ySgse8nrF8r23qdx5HYCOCQAPGNCiS+mvBgEBcLsG++8DvuKxwvtdBmMnQmmun9cA==}
+    engines: {node: '>=20'}
+
   react-dom@19.3.1:
     resolution: {integrity: sha512-Y0bARz53lhEC1NMCASs0/j+faB/zqt3R8hpvg1e8+61ZVJ4UL0UdC4cBbXfZMcIuhrfgeILTLe+ZeBCavQPtKQ==}
     peerDependencies:
@@ -2435,10 +2404,6 @@ packages:
 
   run-applescript@7.1.0:
     resolution: {integrity: sha512-DPe5pVFaAsinSaV6QjQ6gdiedWDcRCbUuiQfQa2wmWV7+xC9bGulGI8+TdRmoFkAPaBXk8CrAbnlY2ISniJ47Q==}
-    engines: {node: '>=18'}
-
-  runmat@0.7.1:
-    resolution: {integrity: sha512-IYxC42hv9cfTWL5Zl/F7mh/Z5NuX1iMOhk/R42C9+aCQtvq9IoWcdXRpwyp+vKi4Xf9d9fMjM7a97f3VW70eiw==}
     engines: {node: '>=18'}
 
   scheduler@0.28.0:
@@ -2669,9 +2634,6 @@ packages:
     engines: {node: '>=18.0.0'}
     peerDependencies:
       zod: ^3.25.0 || ^4.0.0
-
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
   zod@4.6.7:
     resolution: {integrity: sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==}
@@ -3359,24 +3321,6 @@ snapshots:
       hashery: 1.5.1
       keyv: 5.6.0
 
-  '@cbor-extract/cbor-extract-darwin-arm64@2.2.3':
-    optional: true
-
-  '@cbor-extract/cbor-extract-darwin-x64@2.2.3':
-    optional: true
-
-  '@cbor-extract/cbor-extract-linux-arm64@2.2.3':
-    optional: true
-
-  '@cbor-extract/cbor-extract-linux-arm@2.2.3':
-    optional: true
-
-  '@cbor-extract/cbor-extract-linux-x64@2.2.3':
-    optional: true
-
-  '@cbor-extract/cbor-extract-win32-x64@2.2.3':
-    optional: true
-
   '@csstools/cascade-layer-name-parser@3.0.3(@csstools/css-parser-algorithms@4.0.3(@csstools/css-tokenizer@4.0.3))(@csstools/css-tokenizer@4.0.3)':
     dependencies:
       '@csstools/css-parser-algorithms': 4.0.3(@csstools/css-tokenizer@4.0.3)
@@ -4051,6 +3995,8 @@ snapshots:
 
   '@types/prismjs@1.26.6': {}
 
+  '@types/ranjs@1.22.7': {}
+
   '@types/react-dom@19.3.0(@types/react@19.3.0)':
     dependencies:
       '@types/react': 19.3.0
@@ -4281,22 +4227,6 @@ snapshots:
       qified: 0.10.1
 
   caniuse-lite@1.0.30001826: {}
-
-  cbor-extract@2.2.3:
-    dependencies:
-      node-gyp-build-optional-packages: 5.1.1
-    optionalDependencies:
-      '@cbor-extract/cbor-extract-darwin-arm64': 2.2.3
-      '@cbor-extract/cbor-extract-darwin-x64': 2.2.3
-      '@cbor-extract/cbor-extract-linux-arm': 2.2.3
-      '@cbor-extract/cbor-extract-linux-arm64': 2.2.3
-      '@cbor-extract/cbor-extract-linux-x64': 2.2.3
-      '@cbor-extract/cbor-extract-win32-x64': 2.2.3
-    optional: true
-
-  cbor-x@1.6.9:
-    optionalDependencies:
-      cbor-extract: 2.2.3
 
   character-entities-legacy@3.0.0: {}
 
@@ -4709,11 +4639,6 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  node-gyp-build-optional-packages@5.1.1:
-    dependencies:
-      detect-libc: 2.1.2
-    optional: true
-
   node-releases@2.0.65: {}
 
   open@11.0.4:
@@ -5021,6 +4946,8 @@ snapshots:
     dependencies:
       hookified: 2.2.0
 
+  ranjs@1.32.0: {}
+
   react-dom@19.3.1(react@19.3.1):
     dependencies:
       react: 19.3.1
@@ -5144,11 +5071,6 @@ snapshots:
       rolldown: 1.2.19
 
   run-applescript@7.1.0: {}
-
-  runmat@0.7.1:
-    dependencies:
-      cbor-x: 1.6.9
-      zod: 3.25.76
 
   scheduler@0.28.0: {}
 
@@ -5323,8 +5245,6 @@ snapshots:
   zod-validation-error@4.0.2(zod@4.6.7):
     dependencies:
       zod: 4.6.7
-
-  zod@3.25.76: {}
 
   zod@4.6.7: {}
 

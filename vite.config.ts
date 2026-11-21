@@ -7,7 +7,7 @@ import { visualizer } from "rollup-plugin-visualizer";
 
 
 const manualChunks = {
-  'vendor_runmat': ['runmat'],
+  'vendor_echarts': ['echarts'],
   'vendor_highlighter': ['react-syntax-highlighter'],
   'vendor_style': ['tailwind-merge', 'class-variance-authority', 'clsx'],
   'vendor_react': ['react', 'react-dom', 'react-router-dom', 'react-error-boundary', 'react-helmet-async'],
@@ -35,8 +35,8 @@ export default defineConfig({
       output: {
         manualChunks(id: string) {
           if (id.includes('node_modules')) {
-            if (manualChunks.vendor_runmat.some(pkg => id.includes(pkg)))
-              return 'vendor_runmat';
+            if (manualChunks.vendor_echarts.some(pkg => id.includes(pkg)))
+              return 'vendor_echarts';
 
             if (manualChunks.vendor_highlighter.some(pkg => id.includes(pkg)))
               return 'vendor_highlighter';
@@ -52,6 +52,6 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    exclude: ['runmat']
+    exclude: []
   }
 });

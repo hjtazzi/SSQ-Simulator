@@ -18,8 +18,8 @@ const DataChart = ({ title, arrivals, services }: DataChartProps) => {
     const _services: number[] = [];
 
     arrivals.forEach((_val, i) => {
-      const value = parseFloat(_val.toFixed(4));
-      const service = parseFloat(services[i].toFixed(4));
+      const value = parseFloat(_val.toFixed(8));
+      const service = parseFloat(services[i].toFixed(8));
 
       totalArrival += value;
       _arrivals.push(totalArrival * 1000);
@@ -45,14 +45,16 @@ const DataChart = ({ title, arrivals, services }: DataChartProps) => {
       {
         type: 'slider',
         xAxisIndex: 0,
+        filterMode: 'filter',
         bottom: 0,
         height: 25,
         start: 0,
-        end: 8
+        end: chartData.arrivals.length > 100 ? 10 : 100
       },
       {
         type: 'inside',
-        xAxisIndex: 0
+        xAxisIndex: 0,
+        filterMode: 'filter',
       }
     ],
     xAxis: {
@@ -61,7 +63,8 @@ const DataChart = ({ title, arrivals, services }: DataChartProps) => {
       data: [...Array.from({ length: chartData.arrivals.length }).map((_, i) => i)]
     },
     yAxis: {
-      type: 'value'
+      type: 'value',
+      scale: true
     },
     series: [
       {
