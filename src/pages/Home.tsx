@@ -8,6 +8,7 @@ import { classCombiner } from '../utils';
 
 export type TDataset = {
   data: {
+    seed: number;
     services: number[];
     arrivals: number[];
   }[];
@@ -27,12 +28,12 @@ const Home = () => {
           <Initializing setDataset={setDataset} />
 
           {dataset && (
-            dataset.data.map(({ services, arrivals }, i) => (
+            dataset.data.map(({ services, arrivals, seed }, i) => (
               <DataChart
                 key={`sample_${i}`}
                 title={`μ=${Number(dataset.serviceRate)}, ` +
                   `λ=${Number(Number(dataset.arrivalRate) + i)}, ` +
-                  `seed=${(Number(dataset.serviceRate) + Number(dataset.arrivalRate)) + i}`}
+                  `seed=${seed}`}
                 services={services}
                 arrivals={arrivals}
               />

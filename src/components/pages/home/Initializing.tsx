@@ -29,10 +29,12 @@ const Initializing = ({ setDataset }: InitializingProps) => {
   const {
     register,
     handleSubmit,
+    setValues,
     formState: { errors }
   } = useForm<InitializeValues>({ defaultValues });
   const [running, setRunning] = useState<boolean>(false);
   const [subErrors, setSubErrors] = useState<string | undefined>(undefined);
+  const [randSeed, setRandSeed] = useState<boolean>(false);
 
 
   const onSubmit = useCallback<SubmitHandler<InitializeValues>>(async (data) => {
@@ -50,6 +52,7 @@ const Initializing = ({ setDataset }: InitializingProps) => {
         return {
           services: srvExpo.sample(sampleSize) as number[],
           arrivals: arvExpo.sample(sampleSize) as number[],
+          seed
         }
       }
 
@@ -57,7 +60,9 @@ const Initializing = ({ setDataset }: InitializingProps) => {
         dataset.push(initData(
           Number(serviceRate),
           Number(arrivalRate),
-          (Number(serviceRate) + Number(arrivalRate)) + i
+          randSeed
+            ? (Number(serviceRate) + Number(arrivalRate)) * (Math.floor(Math.random() * replications) + 1)
+            : (Number(serviceRate) + Number(arrivalRate)) + i
         ));
       }
 
@@ -74,7 +79,7 @@ const Initializing = ({ setDataset }: InitializingProps) => {
     } finally {
       setRunning(false);
     }
-  }, [setDataset]);
+  }, [setDataset, randSeed]);
 
 
   return (
@@ -145,13 +150,27 @@ const Initializing = ({ setDataset }: InitializingProps) => {
         </div>
 
         {/* Submit */}
-        <div className={'text-sm w-full flex items-center justify-center'}>
-          <BtnFactory type='submit' disabled={running}
-            className='inline-flex w-auto min-w-32 items-center justify-center py-3 gap-2 text-base font-normal leading-none'>
+        <div className={'text-sm w-full flex flex-col md:flex-row gap-4 md:gap-6 items-center justify-center'}>
+          <BtnFactory type='submit' disabled={running} onClick={(e) => { setRandSeed(false); return e; }}
+            className='inline-flex w-full md:w-auto min-w-32 items-center justify-center py-3 gap-2 text-base font-normal leading-none'>
             {running
               ? (<VscRefresh size='1.15em' className='-ml-2 animate-spin' />)
               : (<VscRunCompact size='1.15em' className='-ml-2' />)}
             <span>Run</span>
+          </BtnFactory>
+
+          <BtnFactory type='submit' disabled={running} onClick={(e) => { setRandSeed(true); return e; }}
+            className='inline-flex w-full md:w-auto min-w-32 items-center justify-center py-3 gap-2 text-base font-normal leading-none'>
+            {running
+              ? (<VscRefresh size='1.15em' className='-ml-2 animate-spin' />)
+              : (<VscRunCompact size='1.15em' className='-ml-2' />)}
+            <span>Run RandSeed</span>
+          </BtnFactory>
+
+          <BtnFactory type='submit' disabled={running} onClick={(e) => { setRandSeed(false); setValues(defaultValues); return e; }}
+            className='inline-flex w-full md:w-auto min-w-32 items-center justify-center py-3 gap-2 text-base font-normal leading-none'>
+            <VscRefresh size='1.15em' className='-ml-2' />
+            <span>Reset</span>
           </BtnFactory>
         </div>
 

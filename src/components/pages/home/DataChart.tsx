@@ -12,22 +12,31 @@ interface DataChartProps {
 const DataChart = ({ title, arrivals, services }: DataChartProps) => {
   const chartRef = useRef<HTMLDivElement | null>(null);
   const chartInstance = useRef<ECharts | null>(null);
-  const chartData = useMemo<{ arrivals: number[]; services: number[]; }>(() => {
-    let totalArrival = 0;
+  const chartData = useMemo<{ arrivals: number[]; waitings: number[]; services: number[]; }>(() => {
+    let totalArrivals = 0;
+    let lastCompleted = 0;
+
     const _arrivals: number[] = [];
+    const _waitings: number[] = [];
     const _services: number[] = [];
 
-    arrivals.forEach((_val, i) => {
-      const value = parseFloat(_val.toFixed(8));
-      const service = parseFloat(services[i].toFixed(8));
+    arrivals.forEach((_arrival, i) => {
+      const arrival = parseFloat(_arrival.toFixed(8)) * 1000;
+      const service = parseFloat(services[i].toFixed(8)) * 1000;
+      totalArrivals += arrival;
+      const serviceStart = Math.max(totalArrivals, lastCompleted);
+      const completed = serviceStart + service;
+      const waite = serviceStart - totalArrivals;
 
-      totalArrival += value;
-      _arrivals.push(totalArrival * 1000);
-      _services.push((value + service) * 1000);
+      lastCompleted = completed;
+      _arrivals.push(totalArrivals);
+      _waitings.push(waite);
+      _services.push(service);
     });
 
     return {
       arrivals: _arrivals,
+      waitings: _waitings,
       services: _services
     }
   }, [arrivals, services]);
@@ -57,10 +66,14 @@ const DataChart = ({ title, arrivals, services }: DataChartProps) => {
         filterMode: 'filter',
       }
     ],
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' }
+    },
     xAxis: {
       type: 'category',
       splitLine: { show: false },
-      data: [...Array.from({ length: chartData.arrivals.length }).map((_, i) => i)]
+      data: [...Array.from({ length: chartData.arrivals.length }).map((_, i) => `c${i}`)]
     },
     yAxis: {
       type: 'value',
@@ -68,26 +81,37 @@ const DataChart = ({ title, arrivals, services }: DataChartProps) => {
     },
     series: [
       {
-        name: 'Placeholder',
+        name: 'Arrival (ms)',
         type: 'bar',
         stack: 'Total',
         itemStyle: {
           borderColor: 'transparent',
-          color: 'transparent'
+          color: '#1e3030',
+          borderRadius: 4,
+          opacity: 0.5
         },
-        emphasis: {
-          itemStyle: {
-            borderColor: 'transparent',
-            color: 'transparent'
-          }
-        },
+        label: { show: false },
         data: chartData.arrivals
       },
       {
-        name: 'Services',
+        name: 'Waiting (ms)',
         type: 'bar',
         stack: 'Total',
         itemStyle: {
+          borderColor: 'transparent',
+          color: '#ec003f',
+          borderRadius: 4,
+          opacity: 0.5
+        },
+        label: { show: false },
+        data: chartData.waitings
+      },
+      {
+        name: 'Service (ms)',
+        type: 'bar',
+        stack: 'Total',
+        itemStyle: {
+          borderColor: 'transparent',
           color: '#2563eb',
           borderRadius: 4
         },
