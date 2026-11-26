@@ -1,6 +1,6 @@
 {
   "name": "SSQS",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "hjtazzi",
   "description": "A discrete-event simulator for single-server queues that computes key performance metrics (L, LQ, W, WQ, ρ, throughput) for arbitrary input traces and exponential arrivals/services.",
   "private": true,

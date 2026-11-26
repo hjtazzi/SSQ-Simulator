@@ -1,23 +1,27 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import HeadFactory from '../components/factory/HeadFactory';
 import Initializing from '../components/pages/home/Initializing';
 import DataChart from '../components/pages/home/DataChart';
 import { classCombiner } from '../utils';
+import { calcDataset } from '../utils/datasets';
+import type { TData, TDataset } from '../types';
 
-
-export type TDataset = {
-  data: {
-    seed: number;
-    services: number[];
-    arrivals: number[];
-  }[];
-  serviceRate: number;
-  arrivalRate: number;
-}
 
 const Home = () => {
-  const [dataset, setDataset] = useState<TDataset | undefined>(undefined);
+  const [samples, setSamples] = useState<TDataset | undefined>(undefined);
+  const dataset = useMemo<TData[][]>(() => {
+    const _dataset: TData[][] = [];
+    if (!samples) return _dataset;
+
+    for (let i = 0; i < samples.data.length; i++) {
+      const _sample = samples.data[i];
+      const _data = calcDataset(_sample);
+      _dataset.push(_data);
+    }
+
+    return _dataset;
+  }, [samples]);
 
 
   return (
@@ -25,17 +29,18 @@ const Home = () => {
       <HeadFactory title='Simulation' />
       <div className='HomePage h-full w-full overflow-y-auto overflow-x-hidden custom-scrollbar py-2 bg-blurs'>
         <div className={classCombiner('container mx-auto min-h-full flex flex-col items-center gap-6 p-4')}>
-          <Initializing setDataset={setDataset} />
+          <Initializing setDataset={setSamples} />
 
-          {dataset && (
-            dataset.data.map(({ services, arrivals, seed }, i) => (
+          {samples && (
+            dataset.map((data, i) => (
               <DataChart
-                key={`sample_${i}`}
-                title={`μ=${Number(dataset.serviceRate)}, ` +
-                  `λ=${Number(Number(dataset.arrivalRate) + i)}, ` +
-                  `seed=${seed}`}
-                services={services}
-                arrivals={arrivals}
+                key={`dataset_${i}`}
+                title={
+                  `μ=${Number(samples.serviceRate)}, ` +
+                  `λ=${Number(samples.arrivalRate) + i}, ` +
+                  `seed=${samples.data[i].seed}`
+                }
+                dataset={data}
               />
             ))
           )}

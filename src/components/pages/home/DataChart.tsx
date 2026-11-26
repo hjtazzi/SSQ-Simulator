@@ -1,45 +1,34 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { init as echartsInit, type ECharts, type EChartsOption } from 'echarts';
-import { VscRunCoverage } from 'react-icons/vsc';
+import { VscRunCoverage, VscChevronDown } from 'react-icons/vsc';
+import type { TChartData, TData } from '../../../types';
+import { classCombiner } from '../../../utils';
 
 
 interface DataChartProps {
+  dataset: TData[];
   title: string;
-  arrivals: number[];
-  services: number[];
 }
 
-const DataChart = ({ title, arrivals, services }: DataChartProps) => {
+const DataChart = ({ dataset, title }: DataChartProps) => {
+  const [winOpen, setWinOpen] = useState<boolean>(true);
   const chartRef = useRef<HTMLDivElement | null>(null);
   const chartInstance = useRef<ECharts | null>(null);
-  const chartData = useMemo<{ arrivals: number[]; waitings: number[]; services: number[]; }>(() => {
-    let totalArrivals = 0;
-    let lastCompleted = 0;
+  const chartData = useMemo<TChartData>(() => {
+    const chartData: TChartData = {
+      arrivals: [],
+      services: [],
+      waitings: []
+    }
 
-    const _arrivals: number[] = [];
-    const _waitings: number[] = [];
-    const _services: number[] = [];
-
-    arrivals.forEach((_arrival, i) => {
-      const arrival = parseFloat(_arrival.toFixed(8)) * 1000;
-      const service = parseFloat(services[i].toFixed(8)) * 1000;
-      totalArrivals += arrival;
-      const serviceStart = Math.max(totalArrivals, lastCompleted);
-      const completed = serviceStart + service;
-      const waite = serviceStart - totalArrivals;
-
-      lastCompleted = completed;
-      _arrivals.push(totalArrivals);
-      _waitings.push(waite);
-      _services.push(service);
+    dataset.forEach((data) => {
+      chartData.arrivals.push(data.arrival);
+      chartData.services.push(data.service);
+      chartData.waitings.push(data.waite);
     });
 
-    return {
-      arrivals: _arrivals,
-      waitings: _waitings,
-      services: _services
-    }
-  }, [arrivals, services]);
+    return chartData;
+  }, [dataset]);
   const chartOptions = useMemo<EChartsOption>(() => ({
     width: '100%',
     backgroundColor: 'transparent',
@@ -68,7 +57,7 @@ const DataChart = ({ title, arrivals, services }: DataChartProps) => {
     ],
     tooltip: {
       trigger: 'axis',
-      axisPointer: { type: 'shadow' }
+      axisPointer: { type: 'shadow' },
     },
     xAxis: {
       type: 'category',
@@ -87,7 +76,7 @@ const DataChart = ({ title, arrivals, services }: DataChartProps) => {
         itemStyle: {
           borderColor: 'transparent',
           color: '#1e3030',
-          borderRadius: 4,
+          borderRadius: 2,
           opacity: 0.5
         },
         label: { show: false },
@@ -99,8 +88,8 @@ const DataChart = ({ title, arrivals, services }: DataChartProps) => {
         stack: 'Total',
         itemStyle: {
           borderColor: 'transparent',
-          color: '#ec003f',
-          borderRadius: 4,
+          color: '#e11d48',
+          borderRadius: 2,
           opacity: 0.5
         },
         label: { show: false },
@@ -113,7 +102,7 @@ const DataChart = ({ title, arrivals, services }: DataChartProps) => {
         itemStyle: {
           borderColor: 'transparent',
           color: '#2563eb',
-          borderRadius: 4
+          borderRadius: 2
         },
         label: { show: false },
         data: chartData.services
@@ -134,6 +123,7 @@ const DataChart = ({ title, arrivals, services }: DataChartProps) => {
 
       chartInstance.current = echartsInit(chartRef.current);
       chartInstance.current.setOption(chartOptions);
+      setWinOpen(true);
     }
 
     init();
@@ -146,16 +136,21 @@ const DataChart = ({ title, arrivals, services }: DataChartProps) => {
 
 
   return (
-    <div className='w-full flex flex-col border border-primary-500 rounded-lg m-0 p-4'>
-      <div className='w-full flex flex-col gap-2 mb-8'>
+    <div className='overflow-hidden w-full flex flex-col border border-primary-500 rounded-lg'>
+      <button onClick={() => setWinOpen(prev => !prev)}
+        className={classCombiner(`w-full flex flex-col gap-2 p-4 transition bg-transparent hover:bg-primary-950/15 cursor-pointer`)}>
         <h2 className={'flex flex-row w-full gap-3 items-center'}>
           <VscRunCoverage size='1.15em' />
           {title}
+          <i className='flex-auto opacity-0 h-0'></i>
+          <VscChevronDown size='1.15em' className={classCombiner(`transition-all duration-300 rotate-0`, !winOpen && 'rotate-180')} />
         </h2>
-        <i className={'block w-full h-px bg-primary-500'}></i>
-      </div>
+      </button>
+      <i className={classCombiner(`block w-full h-px bg-primary-500 m-0 p-0 transition opacity-100`, !winOpen && 'opacity-0 delay-200')}></i>
 
-      <div ref={chartRef} className='ChartRef w-full aspect-video'></div>
+      <div className={classCombiner(`overflow-hidden w-full transition-all duration-300 px-4`, winOpen ? 'max-h-dvh' : 'max-h-0')}>
+        <div ref={chartRef} className='ChartRef relative isolate w-full max-h-dvh aspect-video'></div>
+      </div>
       <div className='clear-both'></div>
     </div>
   )

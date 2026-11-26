@@ -1,11 +1,10 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { VscRefresh, VscRunCompact } from "react-icons/vsc";
-import { dist as RunJS } from 'ranjs';
 
 import { BtnFactory, InputFactory } from '../../factory';
-import { classCombiner } from '../../../utils';
-import type { TDataset } from '../../../pages/Home';
+import { classCombiner, datasetReplications } from '../../../utils';
+import type { TDataset } from '../../../types';
 
 
 type InitializeValues = {
@@ -39,32 +38,11 @@ const Initializing = ({ setDataset }: InitializingProps) => {
 
   const onSubmit = useCallback<SubmitHandler<InitializeValues>>(async (data) => {
     setSubErrors(undefined);
+    setRunning(true);
 
     try {
-      setRunning(true);
       const { serviceRate, arrivalRate, sampleSize, replications } = data;
-      const dataset: TDataset['data'] = [];
-
-      const initData = (mu: number, lambda: number, seed: number): TDataset['data'][number] => {
-        const srvExpo = new RunJS.Exponential(mu).seed(seed);
-        const arvExpo = new RunJS.Exponential(lambda).seed(seed);
-
-        return {
-          services: srvExpo.sample(sampleSize) as number[],
-          arrivals: arvExpo.sample(sampleSize) as number[],
-          seed
-        }
-      }
-
-      for (let i = 1; i <= replications; i++) {
-        dataset.push(initData(
-          Number(serviceRate),
-          Number(arrivalRate),
-          randSeed
-            ? (Number(serviceRate) + Number(arrivalRate)) * (Math.floor(Math.random() * replications) + 1)
-            : (Number(serviceRate) + Number(arrivalRate)) + i
-        ));
-      }
+      const dataset = datasetReplications(replications, serviceRate, arrivalRate, sampleSize, randSeed);
 
       console.log(dataset);
       return setDataset({
@@ -84,14 +62,14 @@ const Initializing = ({ setDataset }: InitializingProps) => {
 
   return (
     <div className='w-full flex flex-col border border-primary-500 rounded-lg m-0 p-4'>
-      <div className='w-full flex flex-col gap-2 mb-8'>
+      <div className='w-full flex flex-col gap-2 mb-4'>
         <h2 className={'flex flex-row w-full gap-3 items-center'}>
           <VscRunCompact size='1.15em' />
           Initializing
         </h2>
-        <i className={'block w-full h-px bg-primary-500'}></i>
       </div>
 
+      <i className={'block w-full h-px bg-primary-500 mb-6'}></i>
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-row flex-wrap gap-0'>
         {/* Service Rate */}
         <div className={'text-sm w-full md:w-1/4 md:px-3 mb-6'}>
@@ -128,10 +106,10 @@ const Initializing = ({ setDataset }: InitializingProps) => {
           </div>
 
           <InputFactory type='number' placeholder='Sample Size' inputMode='numeric' step={10}
-            {...register('sampleSize', { required: true, min: 10, max: 10000 })} />
+            {...register('sampleSize', { required: true, min: 10, max: 1000 })} />
 
           {errors.sampleSize && <div className={classCombiner(`w-full mt-2 px-2 text-red-600 text-xs md:text-sm`)}>
-            <span className='p-0 m-0'>{`Sample Size is invalid. (10<=r<=10,000)`}</span>
+            <span className='p-0 m-0'>{`Size is invalid. (10<=r<=1,000)`}</span>
           </div>}
         </div>
 
@@ -142,10 +120,10 @@ const Initializing = ({ setDataset }: InitializingProps) => {
           </div>
 
           <InputFactory type='number' placeholder='Replications' inputMode='numeric' step={1}
-            {...register('replications', { required: true, min: 1, max: 1000 })} />
+            {...register('replications', { required: true, min: 1, max: 100 })} />
 
           {errors.replications && <div className={classCombiner(`w-full mt-2 px-2 text-red-600 text-xs md:text-sm`)}>
-            <span className='p-0 m-0'>{`Replications is invalid. (1<=r<=1,000)`}</span>
+            <span className='p-0 m-0'>{`Replications is invalid. (1<=r<=100)`}</span>
           </div>}
         </div>
 
