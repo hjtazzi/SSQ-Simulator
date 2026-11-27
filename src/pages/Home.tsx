@@ -6,11 +6,12 @@ import DataChart from '../components/pages/home/DataChart';
 import { classCombiner } from '../utils';
 import { calcDataset } from '../utils/datasets';
 import type { TData, TDataset } from '../types';
+import ResultChart from '../components/pages/home/ResultChart';
 
 
 const Home = () => {
   const [samples, setSamples] = useState<TDataset | undefined>(undefined);
-  const dataset = useMemo<TData[][]>(() => {
+  const datasets = useMemo<TData[][]>(() => {
     const _dataset: TData[][] = [];
     if (!samples) return _dataset;
 
@@ -32,7 +33,15 @@ const Home = () => {
           <Initializing setDataset={setSamples} />
 
           {samples && (
-            dataset.map((data, i) => (
+            <ResultChart
+              datasets={datasets}
+              serviceRate={Number(samples.serviceRate)}
+              arrivalRate={Number(samples.arrivalRate)}
+            />
+          )}
+
+          {samples && (
+            datasets.map((data, i) => (
               <DataChart
                 key={`dataset_${i}`}
                 title={

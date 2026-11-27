@@ -73,57 +73,57 @@ const Initializing = ({ setDataset }: InitializingProps) => {
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-row flex-wrap gap-0'>
         {/* Service Rate */}
         <div className={'text-sm w-full md:w-1/4 md:px-3 mb-6'}>
-          <div className={classCombiner(`w-full mb-2 px-1 text-primary-50 text-xs md:text-sm`)}>
-            <span className='p-0 m-0'>Service Rate (μ, per time unit)</span>
+          <div className={classCombiner(`w-full mb-2 px-1 text-primary-50 text-xs md:text-sm line-clamp-1`)}>
+            <span className='p-0 m-0 line-clamp-1'>Service Rate (μ, per time unit)</span>
           </div>
 
           <InputFactory type='number' placeholder='Service Rate' inputMode='decimal' step={0.01}
             {...register('serviceRate', { required: true, min: 1, max: 100, })} />
 
           {errors.serviceRate && <div className={classCombiner(`w-full mt-2 px-2 text-red-600 text-xs md:text-sm`)}>
-            <span className='p-0 m-0'>{`Service Rate is invalid. (1<=μ<=100)`}</span>
+            <span className='p-0 m-0 line-clamp-1'>{`Service Rate is invalid. (1<=μ<=100)`}</span>
           </div>}
         </div>
 
         {/* Arrival Rate */}
         <div className={'text-sm w-full md:w-1/4 md:px-3 mb-6'}>
-          <div className={classCombiner(`w-full mb-2 px-1 text-primary-50 text-xs md:text-sm`)}>
-            <span className='p-0 m-0'>Arrival Rate (λ, per time unit)</span>
+          <div className={classCombiner(`w-full mb-2 px-1 text-primary-50 text-xs md:text-sm line-clamp-1`)}>
+            <span className='p-0 m-0 line-clamp-1'>Arrival Rate (λ, per time unit)</span>
           </div>
 
           <InputFactory type='number' placeholder='Arrival Rate' inputMode='decimal' step={0.01}
             {...register('arrivalRate', { required: true, min: 1, max: 100, })} />
 
           {errors.arrivalRate && <div className={classCombiner(`w-full mt-2 px-2 text-red-600 text-xs md:text-sm`)}>
-            <span className='p-0 m-0'>{`Arrival Rate is invalid. (1<=λ<=100)`}</span>
+            <span className='p-0 m-0 line-clamp-1'>{`Arrival Rate is invalid. (1<=λ<=100)`}</span>
           </div>}
         </div>
 
         {/* Sample Size */}
         <div className={'text-sm w-full md:w-1/4 md:px-3 mb-6'}>
-          <div className={classCombiner(`w-full mb-2 px-1 text-primary-50 text-xs md:text-sm`)}>
-            <span className='p-0 m-0'>Sample Size (n)</span>
+          <div className={classCombiner(`w-full mb-2 px-1 text-primary-50 text-xs md:text-sm line-clamp-1`)}>
+            <span className='p-0 m-0 line-clamp-1'>Sample Size (n)</span>
           </div>
 
           <InputFactory type='number' placeholder='Sample Size' inputMode='numeric' step={10}
             {...register('sampleSize', { required: true, min: 10, max: 1000 })} />
 
           {errors.sampleSize && <div className={classCombiner(`w-full mt-2 px-2 text-red-600 text-xs md:text-sm`)}>
-            <span className='p-0 m-0'>{`Size is invalid. (10<=r<=1,000)`}</span>
+            <span className='p-0 m-0 line-clamp-1'>{`Size is invalid. (10<=n<=1,000)`}</span>
           </div>}
         </div>
 
         {/* Replications */}
         <div className={'text-sm w-full md:w-1/4 md:px-3 mb-6'}>
-          <div className={classCombiner(`w-full mb-2 px-1 text-primary-50 text-xs md:text-sm`)}>
-            <span className='p-0 m-0'>Replications</span>
+          <div className={classCombiner(`w-full mb-2 px-1 text-primary-50 text-xs md:text-sm line-clamp-1`)}>
+            <span className='p-0 m-0 line-clamp-1'>Replications</span>
           </div>
 
           <InputFactory type='number' placeholder='Replications' inputMode='numeric' step={1}
             {...register('replications', { required: true, min: 1, max: 100 })} />
 
           {errors.replications && <div className={classCombiner(`w-full mt-2 px-2 text-red-600 text-xs md:text-sm`)}>
-            <span className='p-0 m-0'>{`Replications is invalid. (1<=r<=100)`}</span>
+            <span className='p-0 m-0 line-clamp-1'>{`Replications is invalid. (1<=r<=100)`}</span>
           </div>}
         </div>
 

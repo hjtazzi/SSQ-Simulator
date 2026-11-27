@@ -1,6 +1,6 @@
 export const noctisObscuroTheme = {
   'code[class*="language-"]': {
-    fontFamily: 'var(--font-firaCode, var(--font-iranSans, var(--font-sans)))',
+    fontFamily: 'var(--font-firaCode, var(--font-vazirmatn, var(--font-sans)))',
     color: 'currentColor',
     background: 'transparent',
     fontSize: '0.9em',

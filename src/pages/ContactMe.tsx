@@ -19,6 +19,11 @@ const contactInfo: { key: string; value: string; link: string | null }[] = [
     link: null,
   },
   {
+    key: "Website",
+    value: Contacts.website.replace("https://", ""),
+    link: Contacts.website,
+  },
+  {
     key: "Email",
     value: Contacts.email,
     link: `mailto:${Contacts.email}`,

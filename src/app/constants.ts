@@ -12,6 +12,7 @@ export const AppPaths = {
 export type AppPaths = (typeof AppPaths)[keyof typeof AppPaths];
 
 export const Contacts = {
+  website: "https://hjtazzi.github.io",
   github: "https://github.com/hjtazzi",
   linkedin: "https://linkedin.com/in/hojjat-azizi",
   email: "hjtazzi@gmail.com"

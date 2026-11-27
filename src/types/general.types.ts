@@ -23,3 +23,15 @@ export type TChartData = {
   services: number[];
   waitings: number[];
 }
+
+
+export type TMetrics = {
+  n: number;
+  T: number;
+  W: number;
+  WQ: number;
+  L: number;
+  LQ: number;
+  utilization: number;
+  throughput: number;
+}
